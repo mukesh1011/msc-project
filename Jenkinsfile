@@ -29,7 +29,11 @@ pipeline {
           }
         }
       }
-
+     stage('SonarQube - SAST') {
+      steps {
+        sh "mvn sonar:sonar -Dsonar.projectKey=devsecops-app -Dsonar.host.url=http://6c8043775f1c.mylabserver.com:8000 -Dsonar.login=4516211832fb71c6f32f62e6ab937fd9463ede92"
+      }
+    } 
       stage('Docker Build and Push') {
         steps {
           withDockerRegistry([credentialsId: "docker-hub", url: ""]) {
