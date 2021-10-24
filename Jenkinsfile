@@ -9,7 +9,7 @@ pipeline {
     applicationURL = "http://devsecops-demo.eastus.cloudapp.azure.com/"
     applicationURI = "/increment/99"
   }
-  
+
   stages {
       stage('Build Artifact') {
             steps {
@@ -73,7 +73,14 @@ pipeline {
       }
       stage('Vulnerability Scan - Kubernetes') {
         steps {
-          sh 'docker run --rm -v $(pwd):/project openpolicyagent/conftest test --policy opa-k8s-security.rego k8s_deployment_service.yaml'
+          parallel(
+            "OPA Scan": {
+              sh 'docker run --rm -v $(pwd):/project openpolicyagent/conftest test --policy opa-k8s-security.rego k8s_deployment_service.yaml'
+            },
+            "Kubesec Scan": {
+              sh "bash kubesec-scan.sh"
+            }
+          )
         }
       }
 
