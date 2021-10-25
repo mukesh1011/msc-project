@@ -19,6 +19,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>1.8</java.version>
+		<tomcat.version>9.0.43</tomcat.version>
 	</properties>
 
 	<dependencies>
@@ -91,18 +92,18 @@
 			      <format>ALL</format>
 			      <failBuildOnCVSS>8</failBuildOnCVSS>
 			      <!-- fail the build for CVSS greater than or equal to 5 -->
-			      <!-- 
-						      use internal mirroring of CVE contents 
-						      Suppress files 
-						      E.g. a company-wide suppression file and local project file 
+			      <!--
+						      use internal mirroring of CVE contents
+						      Suppress files
+						      E.g. a company-wide suppression file and local project file
 						     -->
-			      <!-- 
-						     <cveUrlModified>http://internal-mirror.mycorp.com/nvdcve-1.1-modified.json.gz</cveUrlModified>  
+			      <!--
+						     <cveUrlModified>http://internal-mirror.mycorp.com/nvdcve-1.1-modified.json.gz</cveUrlModified>
 								    <cveUrlBase>http://internal-mirror.mycorp.com/nvdcve-1.1-%d.json.gz</cveUrlBase>
-						     <suppressionFiles>               
+						     <suppressionFiles>
 									<suppressionFile>http://example.org/suppression.xml</suppressionFile>
-									<suppressionFile>project-suppression.xml</suppressionFile> 
-								    </suppressionFiles> 
+									<suppressionFile>project-suppression.xml</suppressionFile>
+								    </suppressionFiles>
 								 -->
 			   </configuration>
 			</plugin>
