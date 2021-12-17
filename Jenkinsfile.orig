@@ -12,23 +12,23 @@ pipeline {
   }
 
   stages {
-      stage('Build') {
+      stage('Build Artifact') {
             steps {
               sh "mvn clean package -DskipTests=true"
               archive 'target/*.jar' //so that they can be downloaded
             }
         }
-      stage('Unit Tests') {
+      stage('Unit Tests - JUnit and Jacoco') {
           steps {
             sh "mvn test"
           }
       }
-      stage('Mutation Tests') {
+      stage('Mutation Tests - PIT') {
         steps {
           sh "mvn org.pitest:pitest-maven:mutationCoverage"
         }
       }
-     stage('SAST') {
+     stage('SonarQube - SAST') {
       steps {
         withSonarQubeEnv('SonarQube') {
         sh "mvn sonar:sonar -Dsonar.projectKey=project1 -Dsonar.host.url=http://172.31.121.102:8000 -Dsonar.login=f2cc9cb261dbe4b1b1b85877ecbfa5a8940a410d"
@@ -47,7 +47,7 @@ pipeline {
           }
         }
     */
-    stage('Container Scanning') {
+    stage('Vulnerability Scan - Docker') {
       steps {
         parallel(
           "Dependency Scan": {
@@ -72,7 +72,7 @@ pipeline {
           }
         }
       }
-      stage('Secure Cluster Scanning') {
+      stage('Vulnerability Scan - Kubernetes') {
         steps {
           parallel(
             "OPA Scan": {
@@ -88,7 +88,7 @@ pipeline {
         }
       }
 
-      stage('Deployment - Staging') {
+      stage('K8S Deployment - DEV') {
         steps {
           parallel(
             "Deployment": {
@@ -104,7 +104,7 @@ pipeline {
           )
         }
       }
-      stage('Tests') {
+      stage('Integration Tests - DEV') {
         steps {
           script {
             try {
@@ -120,14 +120,14 @@ pipeline {
           }
         }
       }
-      stage('DAST') {
+      stage('OWASP ZAP - DAST') {
         steps {
           withKubeConfig([credentialsId: 'kubeconfig']) {
             sh 'bash zap.sh'
           }
         }
       }
-    stage('Deploy to Production?') {
+    stage('Prompte to PROD?') {
       steps {
         timeout(time: 2, unit: 'DAYS') {
           input 'Do you want to Approve the Deployment to Production Environment/Namespace?'
@@ -135,7 +135,7 @@ pipeline {
       }
     }
 
-    stage('K8S Benchmark Test') {
+    stage('K8S CIS Benchmark') {
       steps {
         script {
 
@@ -155,7 +155,7 @@ pipeline {
       }
     }
 
-    stage('Deployment - Production') {
+    stage('K8S Deployment - PROD') {
       steps {
         parallel(
           "Deployment": {
