@@ -1,0 +1,2 @@
+SonarQube: CodeSmell number increase in Quality Gates
+Docker dependency-check: increase spring-boot-starter-parent 2.3.5, increase 	CVSS score to 8 in pom.xml		      <failBuildOnCVSS>8</failBuildOnCVSS>
