@@ -1,2 +1,8 @@
 SonarQube: CodeSmell number increase in Quality Gates
 Docker dependency-check: increase spring-boot-starter-parent 2.3.5, increase 	CVSS score to 8 in pom.xml		      <failBuildOnCVSS>8</failBuildOnCVSS>
+Trivy Docker scan: used image adoptopenjdk/openjdk8:alpine-slim
+OPA Conftest docker: user k8s-pipeline is used instead of ROOT and used COPY instead of ADD.
+OPA Conftest k8s: use securityContext in yaml file to run as non-ROOT
+Kubesec: serviceAccount, and in securityContext, readOnlyRootFilesystem properties are used.
+OWASP ZAP : The warning 1 is resolved by adding spring-boot-starter-security in the project pom.xml file and WebSecurityConfig class in the source code.
+The warning 2 is not very server and can be ignore by setting rules in the zap_rules file.
